@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-darzi-cream text-darzi-dark;
+    @apply font-sans;
+  }
+}
+
+@layer components {
+  /* Custom button styles */
+  .btn-primary {
+    @apply bg-darzi-gold text-white px-6 py-3 rounded-lg font-medium;
+    @apply hover:bg-darzi-brown transition-colors duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-darzi-gold focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent border-2 border-darzi-dark text-darzi-dark px-6 py-3 rounded-lg font-medium;
+    @apply hover:bg-darzi-dark hover:text-white transition-colors duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-darzi-dark focus:ring-offset-2;
+  }
+
+  /* Input field styles */
+  .input-field {
+    @apply w-full px-4 py-3 border-2 border-darzi-taupe rounded-lg;
+    @apply focus:border-darzi-gold focus:outline-none focus:ring-2 focus:ring-darzi-gold focus:ring-opacity-20;
+    @apply bg-white text-darzi-dark;
+  }
+
+  /* Card styles */
+  .card {
+    @apply bg-white rounded-lg shadow-md p-6;
+    @apply border border-darzi-taupe;
+  }
+}
