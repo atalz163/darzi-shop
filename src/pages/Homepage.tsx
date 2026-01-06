@@ -20,7 +20,7 @@ export const HomePage: React.FC = () => {
     <img 
       src="/hero1.jpg" 
       alt="Tailoring" 
-      className="w-full h-full object-cover scale-100 md:scale-150 opacity-40"
+      className="w-full h-full object-cover scale-100  opacity-40"
     />
   </div>
   
