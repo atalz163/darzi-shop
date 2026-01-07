@@ -16,11 +16,11 @@ export const HomePage: React.FC = () => {
   {/* Hero Section */}
 <section className="relative bg-darzi-beige py-20 overflow-hidden">
   {/* Background Image */}
-  <div className="absolute inset-0">
+    <div className="absolute inset-0 opacity-60 ">
     <img 
-      src="/hero1.jpg" 
+      src="/t1.jpeg" 
       alt="Tailoring" 
-      className="w-full h-full object-cover scale-100  opacity-40"
+      className="w-full h-full object-cover"
     />
   </div>
   
