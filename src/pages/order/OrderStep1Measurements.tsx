@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import { HelpCircle, Ruler } from 'lucide-react';
 import { Input } from '../../components/common/Input';
@@ -6,11 +6,12 @@ import { Button } from '../../components/common/Button';
 import { ProgressSteps } from '../../components/common/ProgressSteps';
 import { MeasurementGuide } from '../../components/order/MeasurementGuide';
 import type { Measurements } from '../../types/order';
+import { useState } from 'react';
 
 export const OrderStep1Measurements: React.FC = () => {
   const navigate = useNavigate();
-  const [showGuide, setShowGuide] = React.useState(false);
-  const [measurements, setMeasurements] = React.useState<Measurements>({
+  const [showGuide, setShowGuide] = useState(false);
+  const [measurements, setMeasurements] = useState<Measurements>({
     qad: 0,
     shana: 0,
     asteen: 0,
@@ -24,7 +25,7 @@ export const OrderStep1Measurements: React.FC = () => {
     unit: 'cm',
   });
 
-  const [errors, setErrors] = React.useState<{ [key: string]: string }>({});
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

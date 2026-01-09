@@ -1,14 +1,15 @@
-import React from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import { Scissors, ChevronLeft } from 'lucide-react';
 import { Button } from '../../components/common/Button';
 import { ProgressSteps } from '../../components/common/ProgressSteps';
 import type { DesignSelections } from '../../types/order';
+import {useState, useEffect } from 'react';
 
 export const OrderStep2Designs: React.FC = () => {
   const navigate = useNavigate();
   
-  const [designs, setDesigns] = React.useState<DesignSelections>({
+  const [designs, setDesigns] = useState<DesignSelections>({
     sleeveStyle: '',
     collarType: '',
     hasFrontPocket: false,
@@ -18,10 +19,10 @@ export const OrderStep2Designs: React.FC = () => {
     hasPantsPocket: false,
   });
 
-  const [errors, setErrors] = React.useState<{ [key: string]: string }>({});
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   // Load measurements from previous step
-  React.useEffect(() => {
+  useEffect(() => {
     const savedMeasurements = localStorage.getItem('orderMeasurements');
     if (!savedMeasurements) {
       // If no measurements, redirect back to step 1
