@@ -1,9 +1,9 @@
 
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-
+import { useState } from "react";
 export const Header: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
 
   const isActive = (path: string) => location.pathname === path;
