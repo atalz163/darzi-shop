@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Link } from "react-router-dom";
 import {
   Ruler,
@@ -9,7 +9,7 @@ import {
   Globe,
 } from "lucide-react";
 
-export const HomePage: React.FC = () => {
+export const HomePage = () => {
   return (
     <div>
       {/* Hero Section */}
