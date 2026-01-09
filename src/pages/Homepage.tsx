@@ -9,7 +9,7 @@ import {
   Globe,
 } from "lucide-react";
 
-export const HomePage = () => {
+const HomePage = () => {
   return (
     <div>
       {/* Hero Section */}
