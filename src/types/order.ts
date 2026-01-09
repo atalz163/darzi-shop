@@ -38,14 +38,14 @@ export interface DesignSelections {
 export interface ContactInfo {
   fullName: string;
   phone: string;
-  email?: string;
+  email: string
   addressLine1: string;
-  addressLine2?: string;
+  addressLine2: string;
   city: string;
-  state?: string;
-  postalCode?: string;
-  deliveryNotes?: string;
-  fabricNotes?: string;
+  state: string;
+  postalCode: string;
+  deliveryNotes: string;
+  fabricNotes: string;
 }
 
 // Complete order data
