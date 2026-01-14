@@ -43,36 +43,40 @@ export const OrderStep1Measurements: React.FC = () => {
     const newErrors: { [key: string]: string } = {};
 
     // Validate each measurement (reasonable ranges in cm)
-    if (measurements.qad < 40 || measurements.qad > 150) {
-      newErrors.qad = 'Length should be between 40-150 cm';
+    if (measurements.qad === 0) {
+      newErrors.qad = 'Length is required';
     }
-    if (measurements.shana < 30 || measurements.shana > 80) {
-      newErrors.shana = 'Shoulder should be between 30-80 cm';
-    }
-    if (measurements.asteen < 30 || measurements.asteen > 100) {
-      newErrors.asteen = 'Sleeve should be between 30-100 cm';
-    }
-    if (measurements.yakhan < 30 || measurements.yakhan > 60) {
-      newErrors.yakhan = 'Neck should be between 30-60 cm';
-    }
-    if (measurements.chaati < 60 || measurements.chaati > 200) {
-      newErrors.chaati = 'Chest should be between 60-200 cm';
-    }
-    if (measurements.baghal < 20 || measurements.baghal > 80) {
-      newErrors.baghal = 'Underarm should be between 20-80 cm';
-    }
-    if (measurements.daman < 60 || measurements.daman > 250) {
-      newErrors.daman = 'Bottom width should be between 60-250 cm';
-    }
-    if (measurements.qadShalwar < 60 || measurements.qadShalwar > 150) {
-      newErrors.qadShalwar = 'Pant length should be between 60-150 cm';
-    }
-    if (measurements.pacha < 15 || measurements.pacha > 80) {
-      newErrors.pacha = 'Pant opening should be between 15-80 cm';
-    }
-    if (measurements.quantity < 1 || measurements.quantity > 10) {
-      newErrors.quantity = 'Quantity should be between 1-10';
-    }
+    // if (measurements.qad < 40 || measurements.qad > 150)  {
+    
+    //   newErrors.qad = 'Length should be between 40-150 cm';
+    // }
+    // if (measurements.shana < 30 || measurements.shana > 80) {
+    //   newErrors.shana = 'Shoulder should be between 30-80 cm';
+    // }
+    // if (measurements.asteen < 30 || measurements.asteen > 100) {
+    //   newErrors.asteen = 'Sleeve should be between 30-100 cm';
+    // }
+    // if (measurements.yakhan < 30 || measurements.yakhan > 60) {
+    //   newErrors.yakhan = 'Neck should be between 30-60 cm';
+    // }
+    // if (measurements.chaati < 60 || measurements.chaati > 200) {
+    //   newErrors.chaati = 'Chest should be between 60-200 cm';
+    // }
+    // if (measurements.baghal < 20 || measurements.baghal > 80) {
+    //   newErrors.baghal = 'Underarm should be between 20-80 cm';
+    // }
+    // if (measurements.daman < 60 || measurements.daman > 250) {
+    //   newErrors.daman = 'Bottom width should be between 60-250 cm';
+    // }
+    // if (measurements.qadShalwar < 60 || measurements.qadShalwar > 150) {
+    //   newErrors.qadShalwar = 'Pant length should be between 60-150 cm';
+    // }
+    // if (measurements.pacha < 15 || measurements.pacha > 80) {
+    //   newErrors.pacha = 'Pant opening should be between 15-80 cm';
+    // }
+    // if (measurements.quantity < 1 || measurements.quantity > 10) {
+    //   newErrors.quantity = 'Quantity should be between 1-10';
+    // }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -143,8 +147,6 @@ export const OrderStep1Measurements: React.FC = () => {
                   onChange={handleChange}
                   placeholder="e.g., 95"
                   required
-                  min={40}
-                  max={150}
                   step={0.5}
                   error={errors.qad}
                   helperText="Shoulder to bottom (cm)"
@@ -159,8 +161,6 @@ export const OrderStep1Measurements: React.FC = () => {
                   onChange={handleChange}
                   placeholder="e.g., 45"
                   required
-                  min={30}
-                  max={80}
                   step={0.5}
                   error={errors.shana}
                   helperText="Across shoulders (cm)"
@@ -175,8 +175,6 @@ export const OrderStep1Measurements: React.FC = () => {
                   onChange={handleChange}
                   placeholder="e.g., 60"
                   required
-                  min={30}
-                  max={100}
                   step={0.5}
                   error={errors.asteen}
                   helperText="Shoulder to wrist (cm)"
@@ -191,8 +189,6 @@ export const OrderStep1Measurements: React.FC = () => {
                   onChange={handleChange}
                   placeholder="e.g., 40"
                   required
-                  min={30}
-                  max={60}
                   step={0.5}
                   error={errors.yakhan}
                   helperText="Around neck (cm)"
@@ -207,8 +203,6 @@ export const OrderStep1Measurements: React.FC = () => {
                   onChange={handleChange}
                   placeholder="e.g., 100"
                   required
-                  min={60}
-                  max={200}
                   step={0.5}
                   error={errors.chaati}
                   helperText="Around fullest part (cm)"
@@ -223,8 +217,6 @@ export const OrderStep1Measurements: React.FC = () => {
                   onChange={handleChange}
                   placeholder="e.g., 45"
                   required
-                  min={20}
-                  max={80}
                   step={0.5}
                   error={errors.baghal}
                   helperText="Armpit to waist (cm)"
@@ -239,8 +231,6 @@ export const OrderStep1Measurements: React.FC = () => {
                   onChange={handleChange}
                   placeholder="e.g., 110"
                   required
-                  min={60}
-                  max={250}
                   step={0.5}
                   error={errors.daman}
                   helperText="Around hem (cm)"
@@ -263,8 +253,6 @@ export const OrderStep1Measurements: React.FC = () => {
                   onChange={handleChange}
                   placeholder="e.g., 100"
                   required
-                  min={60}
-                  max={150}
                   step={0.5}
                   error={errors.qadShalwar}
                   helperText="Waist to ankle (cm)"
@@ -279,8 +267,6 @@ export const OrderStep1Measurements: React.FC = () => {
                   onChange={handleChange}
                   placeholder="e.g., 22"
                   required
-                  min={15}
-                  max={80}
                   step={0.5}
                   error={errors.pacha}
                   helperText="Around ankle (cm)"
@@ -303,8 +289,6 @@ export const OrderStep1Measurements: React.FC = () => {
                   onChange={handleChange}
                   placeholder="1"
                   required
-                  min={1}
-                  max={10}
                   step={1}
                   error={errors.quantity}
                   helperText="Number of complete suits"

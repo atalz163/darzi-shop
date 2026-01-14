@@ -205,13 +205,15 @@ export const OrderStep3Contact: React.FC = () => {
                   />
 
                   <Input
-                    label="state/State"
+                    label="State"
                     labelDari="ولایت"
                     name="state"
                     type="text"
                     value={contact.state}
                     onChange={handleChange}
-                    placeholder="Enter state/state"
+                    required
+                    error={errors.state}
+                    placeholder="Enter state"
                   />
                 </div>
 
