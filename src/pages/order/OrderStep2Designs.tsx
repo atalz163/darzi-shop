@@ -1,46 +1,46 @@
-
-import { useNavigate } from 'react-router-dom';
-import { Scissors, ChevronLeft } from 'lucide-react';
-import { Button } from '../../components/common/Button';
-import { ProgressSteps } from '../../components/common/ProgressSteps';
-import type { DesignSelections } from '../../types/order';
-import {useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
+import { Scissors, ChevronLeft } from "lucide-react";
+import { Button } from "../../components/common/Button";
+import { ProgressSteps } from "../../components/common/ProgressSteps";
+import type { DesignSelections } from "../../types/order";
+import { useState, useEffect } from "react";
 
 export const OrderStep2Designs: React.FC = () => {
   const navigate = useNavigate();
-  
+
   const [designs, setDesigns] = useState<DesignSelections>({
-    sleeveStyle: '',
-    collarType: '',
+    sleeveStyle: "",
+    collarType: "",
     hasFrontPocket: false,
     hasSidePockets: false,
-    skirtStyle: 'circle',
-    pantsStyle: 'normal',
+    skirtStyle: "circle",
+    pantsStyle: "normal",
     hasPantsPocket: false,
+    fabricColor: "",
   });
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   // Load measurements from previous step
   useEffect(() => {
-    const savedMeasurements = localStorage.getItem('orderMeasurements');
+    const savedMeasurements = localStorage.getItem("orderMeasurements");
     if (!savedMeasurements) {
       // If no measurements, redirect back to step 1
-      navigate('/order');
+      navigate("/order");
     }
   }, [navigate]);
 
   const handleSleeveChange = (style: string) => {
     setDesigns({ ...designs, sleeveStyle: style });
     if (errors.sleeveStyle) {
-      setErrors({ ...errors, sleeveStyle: '' });
+      setErrors({ ...errors, sleeveStyle: "" });
     }
   };
 
   const handleCollarChange = (type: string) => {
     setDesigns({ ...designs, collarType: type });
     if (errors.collarType) {
-      setErrors({ ...errors, collarType: '' });
+      setErrors({ ...errors, collarType: "" });
     }
   };
 
@@ -48,10 +48,13 @@ export const OrderStep2Designs: React.FC = () => {
     const newErrors: { [key: string]: string } = {};
 
     if (!designs.sleeveStyle) {
-      newErrors.sleeveStyle = 'Please select a sleeve style';
+      newErrors.sleeveStyle = "Please select a sleeve style";
     }
     if (!designs.collarType) {
-      newErrors.collarType = 'Please select a collar type';
+      newErrors.collarType = "Please select a collar type";
+    }
+    if (!designs.fabricColor) {
+      newErrors.fabricColor = "Please select a fabric color";
     }
 
     setErrors(newErrors);
@@ -60,22 +63,22 @@ export const OrderStep2Designs: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (validateDesigns()) {
       // Store designs in localStorage
-      localStorage.setItem('orderDesigns', JSON.stringify(designs));
+      localStorage.setItem("orderDesigns", JSON.stringify(designs));
       // Navigate to step 3
-      navigate('/order/contact');
+      navigate("/order/contact");
     } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
   const handleBack = () => {
-    navigate('/order');
+    navigate("/order");
   };
 
-  const steps = ['Measurements', 'Designs', 'Contact Info', 'Review'];
+  const steps = ["Measurements", "Designs", "Contact Info", "Review"];
 
   return (
     <div className="bg-darzi-cream min-h-screen py-8">
@@ -99,6 +102,72 @@ export const OrderStep2Designs: React.FC = () => {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Fabric color Card */}
+            {/* Shirt/Kameez Designs */}
+            <div className="card">
+              <h2 className="text-2xl font-bold text-darzi-dark mb-6 pb-3 border-b-2 border-darzi-gold">
+                Fabric Color/رنگ تکه
+              </h2>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                {[
+                  { name: "White", dari: "سفید", hex: "#FFFFFF", border: true },
+                  { name: "Black", dari: "سیاه", hex: "#000000" },
+                  { name: "Navy Blue", dari: "آبی تیره", hex: "#1E3A8A" },
+                  { name: "Sky Blue", dari: "آبی ", hex: "#87CEFA" },
+                  { name: "Beige", dari: "بژ", hex: "#D4A574" },
+                  { name: "Gray", dari: "خاکستری", hex: "#6B7280" },
+                  { name: "Cream", dari: "کریم", hex: "#FEF3C7" },
+                  
+                  { name: "Charcoal", dari: "ذغالی", hex: "#374151" },
+                ].map((color) => (
+                  <button
+                    key={color.name}
+                    type="button"
+                    onClick={() => {
+                      setDesigns({ ...designs, fabricColor: color.name });
+                      if (errors.fabricColor) {
+                        setErrors({ ...errors, fabricColor: "" });
+                      }
+                    }}
+                    className={`p-3 rounded-lg border-2 transition-all ${
+                      designs.fabricColor === color.name
+                        ? "border-darzi-gold bg-darzi-beige shadow-lg"
+                        : "border-darzi-taupe hover:border-darzi-gold"
+                    }`}
+                  >
+                    <div className="flex items-center space-x-3">
+                      {/* Color Swatch */}
+                      <div
+                        className={`w-10 h-10 rounded-md flex-shrink-0 ${
+                          color.border ? "border-2 border-gray-300" : ""
+                        }`}
+                        style={{ backgroundColor: color.hex }}
+                      ></div>
+
+                      {/* Color Name */}
+                      <div className="text-left flex-grow">
+                        <p className="font-medium text-darzi-dark text-sm">
+                          {color.name}
+                        </p>
+                        <p className="text-xs text-gray-600">{color.dari}</p>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              {errors.fabricColor && (
+                <p className="mt-2 text-sm text-red-500">
+                  {errors.fabricColor}
+                </p>
+              )}
+
+              <p className="mt-3 text-sm text-gray-600">
+                💡 These are standard colors. If you need a custom color, please
+                mention it in the special instructions.
+              </p>
+            </div>
             {/* Shirt/Kameez Designs */}
             <div className="card">
               <h2 className="text-2xl font-bold text-darzi-dark mb-6 pb-3 border-b-2 border-darzi-gold">
@@ -111,26 +180,30 @@ export const OrderStep2Designs: React.FC = () => {
                   Sleeve Style - آستین <span className="text-red-500">*</span>
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  {['Style 1', 'Style 2', 'Style 3'].map((style) => (
+                  {["Style 1", "Style 2", "Style 3"].map((style) => (
                     <button
                       key={style}
                       type="button"
                       onClick={() => handleSleeveChange(style)}
                       className={`p-6 rounded-lg border-2 transition-all ${
                         designs.sleeveStyle === style
-                          ? 'border-darzi-gold bg-darzi-beige shadow-lg'
-                          : 'border-darzi-taupe hover:border-darzi-gold'
+                          ? "border-darzi-gold bg-darzi-beige shadow-lg"
+                          : "border-darzi-taupe hover:border-darzi-gold"
                       }`}
                     >
                       <div className="w-full h-32 bg-gray-200 rounded-lg mb-3 flex items-center justify-center">
-                        <span className="text-gray-500 text-sm">[Sleeve Icon]</span>
+                        <span className="text-gray-500 text-sm">
+                          [Sleeve Icon]
+                        </span>
                       </div>
                       <p className="font-medium text-darzi-dark">{style}</p>
                     </button>
                   ))}
                 </div>
                 {errors.sleeveStyle && (
-                  <p className="mt-2 text-sm text-red-500">{errors.sleeveStyle}</p>
+                  <p className="mt-2 text-sm text-red-500">
+                    {errors.sleeveStyle}
+                  </p>
                 )}
               </div>
 
@@ -141,10 +214,26 @@ export const OrderStep2Designs: React.FC = () => {
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {[
-                    { value: 'circle', label: 'Circle Collar', labelDari: 'گرد' },
-                    { value: 'shirt', label: 'Shirt Collar', labelDari: 'پیراهن' },
-                    { value: 'indian', label: 'Indian Collar', labelDari: 'هندی' },
-                    { value: 'qasami', label: 'Qasami Collar', labelDari: 'قسمی' },
+                    {
+                      value: "circle",
+                      label: "Circle Collar",
+                      labelDari: "گرد",
+                    },
+                    {
+                      value: "shirt",
+                      label: "Shirt Collar",
+                      labelDari: "پیراهن",
+                    },
+                    {
+                      value: "indian",
+                      label: "Indian Collar",
+                      labelDari: "هندی",
+                    },
+                    {
+                      value: "qasami",
+                      label: "Qasami Collar",
+                      labelDari: "قاسمی",
+                    },
                   ].map((collar) => (
                     <button
                       key={collar.value}
@@ -152,20 +241,28 @@ export const OrderStep2Designs: React.FC = () => {
                       onClick={() => handleCollarChange(collar.value)}
                       className={`p-4 rounded-lg border-2 transition-all ${
                         designs.collarType === collar.value
-                          ? 'border-darzi-gold bg-darzi-beige shadow-lg'
-                          : 'border-darzi-taupe hover:border-darzi-gold'
+                          ? "border-darzi-gold bg-darzi-beige shadow-lg"
+                          : "border-darzi-taupe hover:border-darzi-gold"
                       }`}
                     >
                       <div className="w-full h-24 bg-gray-200 rounded-lg mb-3 flex items-center justify-center">
-                        <span className="text-gray-500 text-xs">[Collar Icon]</span>
+                        <span className="text-gray-500 text-xs">
+                          [Collar Icon]
+                        </span>
                       </div>
-                      <p className="font-medium text-darzi-dark text-sm">{collar.label}</p>
-                      <p className="text-xs text-gray-600">{collar.labelDari}</p>
+                      <p className="font-medium text-darzi-dark text-sm">
+                        {collar.label}
+                      </p>
+                      <p className="text-xs text-gray-600">
+                        {collar.labelDari}
+                      </p>
                     </button>
                   ))}
                 </div>
                 {errors.collarType && (
-                  <p className="mt-2 text-sm text-red-500">{errors.collarType}</p>
+                  <p className="mt-2 text-sm text-red-500">
+                    {errors.collarType}
+                  </p>
                 )}
               </div>
 
@@ -180,7 +277,10 @@ export const OrderStep2Designs: React.FC = () => {
                       type="checkbox"
                       checked={designs.hasFrontPocket}
                       onChange={(e) =>
-                        setDesigns({ ...designs, hasFrontPocket: e.target.checked })
+                        setDesigns({
+                          ...designs,
+                          hasFrontPocket: e.target.checked,
+                        })
                       }
                       className="w-5 h-5 text-darzi-gold rounded focus:ring-darzi-gold"
                     />
@@ -194,7 +294,10 @@ export const OrderStep2Designs: React.FC = () => {
                       type="checkbox"
                       checked={designs.hasSidePockets}
                       onChange={(e) =>
-                        setDesigns({ ...designs, hasSidePockets: e.target.checked })
+                        setDesigns({
+                          ...designs,
+                          hasSidePockets: e.target.checked,
+                        })
                       }
                       className="w-5 h-5 text-darzi-gold rounded focus:ring-darzi-gold"
                     />
@@ -213,13 +316,16 @@ export const OrderStep2Designs: React.FC = () => {
                 <select
                   value={designs.skirtStyle}
                   onChange={(e) =>
-                    setDesigns({ ...designs, skirtStyle: e.target.value as 'circle' | 'square' })
+                    setDesigns({
+                      ...designs,
+                      skirtStyle: e.target.value as "circle" | "square",
+                    })
                   }
                   className="input-field max-w-md"
                   required
                 >
-                  <option value="circle">Circle Skirt - دامن گرد</option>
-                  <option value="square">Square Skirt - دامن مربع</option>
+                  <option value="circle">Circle Skirt -  ګول دامن</option>
+                  <option value="square">Square Skirt - چهار کنج دامن </option>
                 </select>
               </div>
             </div>
@@ -227,28 +333,31 @@ export const OrderStep2Designs: React.FC = () => {
             {/* Pants/Shalwar Designs */}
             <div className="card">
               <h2 className="text-2xl font-bold text-darzi-dark mb-6 pb-3 border-b-2 border-darzi-gold">
-                Pants/Shalwar Designs - پتلون/شلوار
+                Pants/Shalwar Designs - /تنبان
               </h2>
 
               {/* Pants Style */}
               <div className="mb-6">
                 <label className="block text-lg font-semibold text-darzi-dark mb-4">
-                  Pants Style - نوع پتلون <span className="text-red-500">*</span>
+                  Pants Style - نوع تنبان {" "}
+                  <span className="text-red-500">*</span>
                 </label>
                 <select
                   value={designs.pantsStyle}
                   onChange={(e) =>
                     setDesigns({
                       ...designs,
-                      pantsStyle: e.target.value as 'normal' | 'wide' | 'narrow',
+                      pantsStyle: e.target.value as
+                        | "normal"
+                        | "wide"
+                        | "narrow",
                     })
                   }
                   className="input-field max-w-md"
                   required
                 >
-                  <option value="normal">Normal Pant - پتلون عادی</option>
-                  <option value="wide">Wide Shalwar - شلوار ویده</option>
-                  <option value="narrow">Narrow Pant - پتلون تنگ</option>
+                  <option value="normal">Normal Pant -  عادی</option>
+                  <option value="wide">Wide Shalwar - شلوار </option>
                 </select>
               </div>
 
@@ -262,7 +371,10 @@ export const OrderStep2Designs: React.FC = () => {
                     type="checkbox"
                     checked={designs.hasPantsPocket}
                     onChange={(e) =>
-                      setDesigns({ ...designs, hasPantsPocket: e.target.checked })
+                      setDesigns({
+                        ...designs,
+                        hasPantsPocket: e.target.checked,
+                      })
                     }
                     className="w-5 h-5 text-darzi-gold rounded focus:ring-darzi-gold"
                   />
