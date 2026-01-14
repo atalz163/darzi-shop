@@ -31,6 +31,10 @@ export interface DesignSelections {
   // Pants/Shalwar
   pantsStyle: 'normal' | 'wide' | 'narrow';
   hasPantsPocket: boolean;
+
+  //Fabric color
+  fabricColor : string;
+
 }
 
 
