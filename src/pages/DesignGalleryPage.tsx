@@ -97,9 +97,7 @@ export const DesignGalleryPage: React.FC = () => {
                   <h3 className="font-bold text-darzi-dark text-lg mb-1">
                     {design.title}
                   </h3>
-                  <p className="text-sm text-gray-600 mb-3" dir="rtl">
-                    {design.titleDari}
-                  </p>
+               
                   {design.description && (
                     <p className="text-sm text-gray-600 line-clamp-2">
                       {design.description}
