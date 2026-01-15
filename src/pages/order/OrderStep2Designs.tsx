@@ -118,7 +118,7 @@ export const OrderStep2Designs: React.FC = () => {
                   { name: "Beige", dari: "بژ", hex: "#D4A574" },
                   { name: "Gray", dari: "خاکستری", hex: "#6B7280" },
                   { name: "Cream", dari: "کریم", hex: "#FEF3C7" },
-                  
+
                   { name: "Charcoal", dari: "ذغالی", hex: "#374151" },
                 ].map((color) => (
                   <button
@@ -180,23 +180,31 @@ export const OrderStep2Designs: React.FC = () => {
                   Sleeve Style - آستین <span className="text-red-500">*</span>
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  {["Style 1", "Style 2", "Style 3"].map((style) => (
+                  {[
+                    { name: "Simple", image: "/design/astin1.png" },
+                    { name: "Open", image: "/design/astin2.jpg" },
+                    { name: "Qandahari", image: "/design/astin3.jpg" },
+                  ].map((style) => (
                     <button
-                      key={style}
+                      key={style.name}
                       type="button"
-                      onClick={() => handleSleeveChange(style)}
+                      onClick={() => handleSleeveChange(style.name)}
                       className={`p-6 rounded-lg border-2 transition-all ${
-                        designs.sleeveStyle === style
+                        designs.sleeveStyle === style.name
                           ? "border-darzi-gold bg-darzi-beige shadow-lg"
                           : "border-darzi-taupe hover:border-darzi-gold"
                       }`}
                     >
-                      <div className="w-full h-32 bg-gray-200 rounded-lg mb-3 flex items-center justify-center">
-                        <span className="text-gray-500 text-sm">
-                          [Sleeve Icon]
-                        </span>
+                      <div className="w-full h-32 bg-gray-200 rounded-lg mb-3 overflow-hidden">
+                        <img
+                          src={style.image}
+                          alt={style.name}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
-                      <p className="font-medium text-darzi-dark">{style}</p>
+                      <p className="font-medium text-darzi-dark">
+                        {style.name}
+                      </p>
                     </button>
                   ))}
                 </div>
@@ -218,21 +226,25 @@ export const OrderStep2Designs: React.FC = () => {
                       value: "circle",
                       label: "Circle Collar",
                       labelDari: "گرد",
+                      Image: "/design/yakhan4.png",
                     },
                     {
                       value: "shirt",
                       label: "Shirt Collar",
                       labelDari: "پیراهن",
+                      Image: '/design/yakhan3.png',
                     },
                     {
                       value: "indian",
                       label: "Indian Collar",
                       labelDari: "هندی",
+                      Image: '/design/yakhan2.jpg',
                     },
                     {
                       value: "qasami",
                       label: "Qasami Collar",
                       labelDari: "قاسمی",
+                      Image: '/design/yakhan1.png',
                     },
                   ].map((collar) => (
                     <button
@@ -245,12 +257,13 @@ export const OrderStep2Designs: React.FC = () => {
                           : "border-darzi-taupe hover:border-darzi-gold"
                       }`}
                     >
-                      <div className="w-full h-24 bg-gray-200 rounded-lg mb-3 flex items-center justify-center">
+                      <div className="w-full h-32 bg-gray-200 rounded-lg mb-3 overflow-hidden">
                         <span className="text-gray-500 text-xs">
-                          [Collar Icon]
+                         <img src={collar.Image} className="w-full h-full object-cover" />
                         </span>
                       </div>
                       <p className="font-medium text-darzi-dark text-sm">
+                        
                         {collar.label}
                       </p>
                       <p className="text-xs text-gray-600">
@@ -324,7 +337,7 @@ export const OrderStep2Designs: React.FC = () => {
                   className="input-field max-w-md"
                   required
                 >
-                  <option value="circle">Circle Skirt -  ګول دامن</option>
+                  <option value="circle">Circle Skirt - ګول دامن</option>
                   <option value="square">Square Skirt - چهار کنج دامن </option>
                 </select>
               </div>
@@ -339,7 +352,7 @@ export const OrderStep2Designs: React.FC = () => {
               {/* Pants Style */}
               <div className="mb-6">
                 <label className="block text-lg font-semibold text-darzi-dark mb-4">
-                  Pants Style - نوع تنبان {" "}
+                  Pants Style - نوع تنبان{" "}
                   <span className="text-red-500">*</span>
                 </label>
                 <select
@@ -356,7 +369,7 @@ export const OrderStep2Designs: React.FC = () => {
                   className="input-field max-w-md"
                   required
                 >
-                  <option value="normal">Normal Pant -  عادی</option>
+                  <option value="normal">Normal Pant - عادی</option>
                   <option value="wide">Wide Shalwar - شلوار </option>
                 </select>
               </div>
