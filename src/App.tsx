@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/layout/Layout";
 import HomePage from "./pages/HomePage";
+import { DesignGalleryPage } from './pages/DesignGalleryPage';
 import { AboutPage } from "./pages/AboutPage";
 import { ContactPage } from "./pages/ContactPage";
 import { TrackOrderPage } from "./pages/TrackOrderPage";
@@ -9,12 +10,14 @@ import { OrderStep2Designs } from "./pages/order/OrderStep2Designs";
 import { OrderStep3Contact } from "./pages/order/OrderStep3Contact";
 import { OrderStep4Review } from "./pages/order/OrderStep4Review";
 import { OrderStep5Confirmation } from "./pages/order/OrderStep5Confirmation";
+
 function App() {
   return (
     <Router>
       <Layout>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/designs" element={<DesignGalleryPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/track" element={<TrackOrderPage />} />
@@ -26,6 +29,7 @@ function App() {
             path="/order/confirmation"
             element={<OrderStep5Confirmation />}
           />
+
           {/* More order steps will be added here */}
         </Routes>
       </Layout>
