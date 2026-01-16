@@ -18,7 +18,7 @@ const HomePage = () => {
   {/* Background Image */}
     <div className="absolute inset-0 opacity-60 ">
     <img 
-      src="/t1.jpeg" 
+      src="/t1.jpg" 
       alt="Tailoring" 
       className="w-full h-full object-cover"
     />
@@ -28,12 +28,12 @@ const HomePage = () => {
   <div className="container mx-auto px-4 relative z-10">
     <div className="max-w-3xl mx-auto text-center">
       <img 
-        src="/darzi-logo.png" 
+        src="/darzi-homepage.png" 
         alt="Darzi Logo" 
-        className="h-45 w-auto mx-auto mb-6"
+        className="h-40 w-auto mx-auto mb-6"
       />
    
-      <p className="text-lg text-darzi-dark mb-8">
+      <p className="text-2xl text-gray-900 mb-8">
         Custom tailoring delivered to your doorstep. Professional Afghan tailoring from the comfort of your home.
       </p>
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
