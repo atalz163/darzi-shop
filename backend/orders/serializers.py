@@ -57,7 +57,7 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'order_number', 'customer_name', 'customer_phone',
             'customer_email', 'address_line1', 'address_line2',
-            'city', 'province', 'postal_code', 'delivery_notes',
+            'city', 'state', 'postal_code', 'delivery_notes',
             'fabric_notes', 'quantity', 'status', 'order_date',
             'estimated_delivery', 'measurements', 'design', 'status_history'
         ]
