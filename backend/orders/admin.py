@@ -45,7 +45,7 @@ class OrderAdmin(admin.ModelAdmin):
             'fields': ('customer_name', 'customer_phone', 'customer_email')
         }),
         ('Shipping Address', {
-            'fields': ('address_line1', 'address_line2', 'city', 'province', 'postal_code')
+            'fields': ('address_line1', 'address_line2', 'city', 'state', 'postal_code')
         }),
         ('Special Instructions', {
             'fields': ('delivery_notes', 'fabric_notes'),
