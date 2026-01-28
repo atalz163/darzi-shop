@@ -18,7 +18,6 @@ class ClothingType(models.Model):
     def __str__(self):
         return self.name
 
-
 class DesignOption(models.Model):
     """
     Design options for clothing (sleeve styles, collars, etc.)
