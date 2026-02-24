@@ -11,7 +11,7 @@
 
 A modern, full-stack web application for custom Afghan tailoring with worldwide delivery.
 
-[Live Demo](#) • [Documentation](#features) • [Report Bug](#) • [Request Feature](#)
+[Live Demo](#https://darzi-shop.vercel.app/) • [Documentation](#features) • [Report Bug](#) • [Request Feature](#)
 
 </div>
 
