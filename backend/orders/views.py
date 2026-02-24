@@ -1,6 +1,3 @@
-from django.shortcuts import render
-
-
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -17,22 +14,41 @@ from .serializers import (
 class OrderViewSet(viewsets.ModelViewSet):
     """
     ViewSet for Order model
-    Automatically provides: list, create, retrieve, update, destroy
     """
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
-    permission_classes = [AllowAny]  # For now, anyone can access
+    permission_classes = [AllowAny]
     
-    # Custom ordering - newest orders first
     def get_queryset(self):
         return Order.objects.all().order_by('-created_at')
     
-    # Custom action for tracking orders by order number
+    def create(self, request, *args, **kwargs):
+        """
+        Override create to add debug logging
+        """
+        # Print what we received
+        print("=" * 50)
+        print("Received data:", request.data)
+        print("=" * 50)
+        
+        # Validate with serializer
+        serializer = self.get_serializer(data=request.data)
+        
+        # Check if valid
+        if not serializer.is_valid():
+            print("Validation errors:", serializer.errors)
+            print("=" * 50)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        # If valid, create the order
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+    
     @action(detail=False, methods=['get'], url_path='track/(?P<order_number>[^/.]+)')
     def track_order(self, request, order_number=None):
         """
-        Custom endpoint: GET /api/orders/track/TS-2025-00001/
-        Allows tracking order by order number (not ID)
+        Track order by order number
         """
         try:
             order = Order.objects.get(order_number=order_number)

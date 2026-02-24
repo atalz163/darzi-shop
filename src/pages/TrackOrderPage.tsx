@@ -2,41 +2,66 @@ import React from 'react';
 import { Package, Search } from 'lucide-react';
 import { Button } from '../components/common/Button';
 import { Input } from '../components/common/Input';
+import { orderAPI } from '../services/api';
+import axios from 'axios';
 
 export const TrackOrderPage: React.FC = () => {
   const [orderNumber, setOrderNumber] = React.useState('');
   const [trackingResult, setTrackingResult] = React.useState<any>(null);
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState('');
+const handleTrack = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setError('');
+  setIsLoading(true);
 
-  const handleTrack = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
+  try {
+    // Call Django API
+    const data = await orderAPI.trackOrder(orderNumber);
+    
+    // Format status history
+    const history = data.status_history?.map((item) => ({
+      status: item.new_status,
+      date: new Date(item.changed_at).toLocaleString(),
+      note: item.notes || '',
+    })) || [];
 
-    // TODO: Connect to backend API
-    // For now, simulate tracking
-    setTimeout(() => {
-      if (orderNumber.startsWith('TS-')) {
-        // Mock successful tracking
-        setTrackingResult({
-          orderNumber: orderNumber,
-          status: 'in_progress',
-          orderDate: '2025-01-05',
-          estimatedDelivery: '2025-01-15',
-          history: [
-            { status: 'submitted', date: '2025-01-05 10:30 AM', note: 'Order received' },
-            { status: 'confirmed', date: '2025-01-05 02:15 PM', note: 'Order confirmed' },
-            { status: 'in_progress', date: '2025-01-06 09:00 AM', note: 'Our tailor is working on your order' },
-          ],
-        });
-      } else {
+    // Set tracking result
+    setTrackingResult({
+      orderNumber: data.order_number,
+      status: data.status,
+      orderDate: new Date(data.order_date).toLocaleDateString(),
+      estimatedDelivery: data.estimated_delivery 
+        ? new Date(data.estimated_delivery).toLocaleDateString()
+        : 'To be determined',
+      history: history.length > 0 ? history : [
+        {
+          status: data.status,
+          date: new Date(data.order_date).toLocaleString(),
+          note: 'Order received',
+        },
+      ],
+    });
+    setIsLoading(false);
+  } catch (error) {
+    console.error('Error tracking order:', error);
+    
+    // Type guard for axios error
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 404) {
         setError('Order not found. Please check your order number.');
-        setTrackingResult(null);
+      } else {
+        setError('Unable to track order. Please try again later.');
       }
-      setIsLoading(false);
-    }, 1000);
-  };
+    } else {
+      setError('An unexpected error occurred. Please try again.');
+    }
+    
+    setTrackingResult(null);
+    setIsLoading(false);
+  }
+};
+
 
   const getStatusColor = (status: string) => {
     const colors: { [key: string]: string } = {

@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { CheckCircle, ChevronLeft, Edit } from "lucide-react";
 import { Button } from "../../components/common/Button";
 import { ProgressSteps } from "../../components/common/ProgressSteps";
+import { orderAPI } from '../../services/api';
+
 import type {
   Measurements,
   DesignSelections,
@@ -36,31 +38,70 @@ export const OrderStep4Review: React.FC = () => {
     setContact(JSON.parse(savedContact));
   }, [navigate]);
 
-  const handleSubmit = async () => {
-    setIsSubmitting(true);
+  
+const handleSubmit = async () => {
+  setIsSubmitting(true);
 
-    // TODO: Submit to backend API
-    // For now, simulate submission
-    setTimeout(() => {
-      // Generate mock order number
-      const orderNumber = `TS-${new Date().getFullYear()}-${String(
-        Math.floor(Math.random() * 100000)
-      ).padStart(5, "0")}`;
+  try {
+    // Prepare data for Django API
+    const orderData = {
+      customer_name: contact!.fullName,
+      customer_phone: contact!.phone,
+      customer_email: contact!.email || '',
+      address_line1: contact!.addressLine1,
+      address_line2: contact!.addressLine2 || '',
+      city: contact!.city,
+      province: contact!.state || '',
+      postal_code: contact!.postalCode || '',
+      delivery_notes: contact!.deliveryNotes || '',
+      fabric_notes: contact!.fabricNotes || '',
+      quantity: measurements!.quantity,
+      status: 'submitted',
+      measurements: {
+        qad: measurements!.qad,
+        shana: measurements!.shana,
+        asteen: measurements!.asteen,
+        yakhan: measurements!.yakhan,
+        chaati: measurements!.chaati,
+        baghal: measurements!.baghal,
+        daman: measurements!.daman,
+        qad_shalwar: measurements!.qadShalwar,
+        pacha: measurements!.pacha,
+        measurement_unit: measurements!.unit,
+      },
+      design: {
+        sleeve_style: designs!.sleeveStyle,
+        collar_type: designs!.collarType,
+        has_front_pocket: designs!.hasFrontPocket,
+        has_side_pockets: designs!.hasSidePockets,
+        skirt_style: designs!.skirtStyle,
+        pants_style: designs!.pantsStyle,
+        has_pants_pocket: designs!.hasPantsPocket,
+        fabric_color: designs!.fabricColor,
+      },
+    };
 
-      // Store order number
-      localStorage.setItem("lastOrderNumber", orderNumber);
+    // Submit to Django API
+    const response = await orderAPI.createOrder(orderData);
 
-      // Clear order data
-      localStorage.removeItem("orderMeasurements");
-      localStorage.removeItem("orderDesigns");
-      localStorage.removeItem("orderContact");
+    // Store order number from response
+    localStorage.setItem('lastOrderNumber', response.order_number);
 
-      setIsSubmitting(false);
+    // Clear order data
+    localStorage.removeItem('orderMeasurements');
+    localStorage.removeItem('orderDesigns');
+    localStorage.removeItem('orderContact');
 
-      // Navigate to confirmation page
-      navigate("/order/confirmation");
-    }, 2000);
-  };
+    setIsSubmitting(false);
+
+    // Navigate to confirmation
+    navigate('/order/confirmation');
+  } catch (error) {
+    console.error('Error submitting order:', error);
+    setIsSubmitting(false);
+    alert('Failed to submit order. Please try again.');
+  }
+};
 
   const handleBack = () => {
     navigate("/order/contact");

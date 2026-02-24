@@ -120,55 +120,59 @@ class OrderMeasurement(models.Model):  # Remove "Model" from name
     
 
 class OrderDesign(models.Model):
-    SLEEVE_CHOICES = [  
-        ('simple', 'Simple'),
-        ('open', 'Open'),
-        ('qandahari', 'Qandahari')
+    SLEEVE_CHOICES = [
+        ('Simple', 'Simple'),  # Changed from ('simple', 'Simple')
+        ('Style 2', 'Style 2'),
+        ('Style 3', 'Style 3'),
     ]
     
-    COLLAR_CHOICES = [  
+    COLLAR_CHOICES = [
         ('circle', 'Circle Collar'),
         ('shirt', 'Shirt Collar'),
         ('indian', 'Indian Collar'),
-        ('qasami', 'Qasami Collar')
+        ('qasami', 'Qasami Collar'),
     ]
     
-    SKIRT_CHOICES = [ 
+    SKIRT_CHOICES = [
         ('circle', 'Circle'),
-        ('square', 'Square')
+        ('square', 'Square'),
     ]
     
-    PANTS_CHOICES = [  
+    PANTS_CHOICES = [
         ('normal', 'Normal'),
         ('wide', 'Wide'),
-        ('narrow', 'Narrow')
+        ('narrow', 'Narrow'),
     ]
     
     FABRIC_COLORS = [
-        ('white', 'White'),
-        ('beige', 'Beige'),
-        ('black', 'Black'),
-        ('gray', 'Gray'),
-        ('navy_blue', 'Navy Blue'),
-        ('cream', 'Cream'),
-        ('sky_blue', 'Sky Blue'),
-        ('charcoal', 'Charcoal'),
+        ('White', 'White'),           # Changed from ('white', 'White')
+        ('Black', 'Black'),           # Changed from ('black', 'Black')
+        ('Navy Blue', 'Navy Blue'),   # Changed from ('navy_blue', 'Navy Blue')
+        ('Royal Blue', 'Royal Blue'), # Add this if you have it
+        ('Brown', 'Brown'),           # Changed
+        ('Beige', 'Beige'),           # Changed
+        ('Gray', 'Gray'),             # Changed
+        ('Cream', 'Cream'),           # Changed
+        ('Maroon', 'Maroon'),         # Changed
+        ('Green', 'Green'),           # Changed
+        ('Olive', 'Olive'),           # Changed
+        ('Charcoal', 'Charcoal'),     # Changed
     ]
     
     order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name='design')
-    sleeve_style = models.CharField(max_length=20, choices=SLEEVE_CHOICES)  
-    collar_type = models.CharField(max_length=20, choices=COLLAR_CHOICES)  
-    has_front_pocket = models.BooleanField(default=False)  
-    has_side_pockets = models.BooleanField(default=False) 
-    skirt_style = models.CharField(max_length=20, choices=SKIRT_CHOICES)  
-    pants_style = models.CharField(max_length=20, choices=PANTS_CHOICES)  
-    has_pants_pocket = models.BooleanField(default=False)  
-    fabric_color = models.CharField(max_length=20, choices=FABRIC_COLORS)  
+    sleeve_style = models.CharField(max_length=20, choices=SLEEVE_CHOICES)
+    collar_type = models.CharField(max_length=20, choices=COLLAR_CHOICES)
+    has_front_pocket = models.BooleanField(default=False)
+    has_side_pockets = models.BooleanField(default=False)
+    skirt_style = models.CharField(max_length=20, choices=SKIRT_CHOICES)
+    pants_style = models.CharField(max_length=20, choices=PANTS_CHOICES)
+    has_pants_pocket = models.BooleanField(default=False)
+    fabric_color = models.CharField(max_length=20, choices=FABRIC_COLORS)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return f"Design for {self.order.order_number}"
-
+    
 class OrderStatusHistory(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='status_history')
     old_status = models.CharField(max_length=20, blank=True, null=True)  
